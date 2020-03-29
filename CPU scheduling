@@ -2,15 +2,15 @@
 #include<stdio.h>
 using namespace std;
 
- int dony[20];
- int top = 0;
-void findavgTime(int [], int, int [], int);
+ int array1[20];
+ int test = 0;
+void average_time(int [], int, int [], int);
 
 struct Process
 {
-    int pid;  // Process ID
-    int at;   // Arrival time
-    int bt;   // CPU Burst time required
+    int process_id;  // Process ID
+    int arrival_time;   // Arrival time
+    int burst_time;   // CPU Burst time required
     int priority; // Priority of this process
 };
  
@@ -26,7 +26,7 @@ void priorityScheduling(Process proc[], int n)
 	int temp = 0;
 	for(int i = 0 ; i < n; i++)
 	{
-		temp = temp + proc[i].bt;
+		temp = temp + proc[i].burst_time;
 		
 	}
 	//cout<<"\n MAXTIME: "<<temp<<endl;
@@ -40,7 +40,7 @@ void priorityScheduling(Process proc[], int n)
     int processes[20];
  
     // Burst time of all processes
-    int burst_time[20];
+    int Burst_time[20];
 	
 	//level 1
 	//  main Logic to communicate between the levels
@@ -55,10 +55,10 @@ void priorityScheduling(Process proc[], int n)
 		for(i = 0; i < n; ++i)
 		{
 			
-			if(time >= proc[i].at and proc[i].pid != -1)
+			if(time >= proc[i].arrival_time and proc[i].process_id != -1)
 			{
 				
-				if(proc[i].bt != 0)
+				if(proc[i].burst_time != 0)
 					{
 					
 					
@@ -68,23 +68,23 @@ void priorityScheduling(Process proc[], int n)
 						flag2 = false;
 					}
 					
-					proc[i].bt = proc[i].bt -1;
+					proc[i].burst_time = proc[i].burst_time -1;
 					
-					if(proc[i].bt == 0)
+					if(proc[i].burst_time == 0)
 					{
-						dony[top] = proc[i].pid;
-						top++;
+						array1[test]= proc[i].process_id;
+						test++;
 						
 					}
 					
 					if(i != j )
 					{
-						if(proc[j].bt != 0)
+						if(proc[j].burst_time != 0)
 						{
 					
-						processes[newi] = proc[j].pid;
-						burst_time[newi] = proc[j].bt;
-						proc[j].pid = -1;
+						processes[newi] = proc[j].process_id;
+						Burst_time[newi] = proc[j].burst_time;
+						proc[j].process_id = -1;
 						newi++;
 						j = i;
 						}
@@ -112,18 +112,18 @@ void priorityScheduling(Process proc[], int n)
 	
 	cout<<"\nProcesses those are completed in level 1:"<<endl;
 		
-	for(int i=0;i<top-1;i++)
+	for(int i=0;i<test-1;i++)
 	{
-		cout<<"  "<<dony[i]<<"  --> ";
+		cout<<"  "<<array1[i]<<"  --> ";
 		
-	}cout<<dony[top-1]<<endl;
+	}cout<<array1[test-1]<<endl;
     //level 2 calling
 
     cout<<"\n-------------------------Level 2-------------------------";
     cout<<"\n                 Round Robin Scheduling    \n"<<endl;
     // Time quantum
     int quantum = 2;
-    findavgTime(processes, newi, burst_time, quantum);
+    average_time(processes, newi, Burst_time, quantum);
 }
 
 
@@ -204,7 +204,7 @@ void findTurnAroundTime(int processes[], int n,
 }
  
 // Function to calculate average time
-void findavgTime(int processes[], int n, int bt[],
+void average_time(int processes[], int n, int bt[],
                                      int quantum)
 {
     int wt[n], tat[n], total_wt = 0, total_tat = 0;
@@ -252,8 +252,8 @@ int main()
          << " Burst time " << " Priority\n";
 	for(int i = 0;i < n; i++)
 	{
-		cout << " " << proc[i].pid << "\t\t" << proc[i].at <<"\t "
-             << proc[i].bt <<"\t\t " << proc[i].priority <<endl;
+		cout << " " << proc[i].process_id << "\t\t" << proc[i].arrival_time <<"\t "
+             << proc[i].burst_time <<"\t\t " << proc[i].priority <<endl;
 	}
 
     cout<<"\n-------------------------Level 1-------------------------"<<endl;
